@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xml:lang="en"
+      lang="en"
+      class="no-js">
+<head>
+<title>Compare the Python</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="description" content="Comparison of features implemented by CPython, PyPy and Jython" />
+<meta name="author" content="Alex Willmer" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/bootstrap-1.1.1.min.css" />
+<script src="js/libs/modernizr-2.0.6.min.js"></script>
+<link rel="shortcut icon" href="favicon.png" />
+<style>
+section {
+  padding-top: 60px;
+}
+td.col, th.col {
+  text-align: center;
+}
+</style>
+</head>
+
+<body style="padding-top: 40px;">
+<div id="container" class="container">
+<header>
+  <div class="topbar">
+    <div class="fill">
+      <div class="container">
+        <h3><a href="#"><img src="comparethepython-logo-36px.png" alt="Compare the Python.com" /></a></h3>
+        <ul>
+          <li class="active">
+            <a href="#masthead">Overview</a>
+          </li>
+          <li py:for="section in sections">
+            <a href="#${section.lower().replace(' ', '-')}">${section}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div id="masthead">
+  <img src="comparethepython-logo-inkscape.png" />
+</div>
+
+<div id="main" role="main">
+  <section py:for="section in sections" id="${section.lower().replace(' ', '-')}">
+    <h1>$section</h1>
+    <table py:with="table = tables[section]">
+      <colgroup span="$nlabelcols"></colgroup>
+      <!--! colgroup py:for="group, span in colgroups" span="$span"></colgroup-->
+      <col py:for="x in pythons" width="60" />
+      <thead>
+        <tr>
+          <th colspan="$nlabelcols"></th>
+          <th py:for="group, span in colgroups" colspan="$span" class="col">$group</th> 
+        </tr>
+        <tr>
+          <th colspan="$nlabelcols"></th> 
+          <th py:for="name, ver, rel_date in pythons" class="col">$ver</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th colspan="$nlabelcols">Released</th>
+          <td py:for="name, ver, rel_date in pythons" class="col">
+            <time datetime="${rel_date.strftime('%Y-%m-%m')}">${rel_date.strftime('%b %Y')}</time>
+          </td>
+        </tr>
+      </tbody>
+      <tbody py:for="subsection, rows in table">
+        <tr py:for="subsection, labels, col_data in rows">
+          <th py:for="label in labels" class="rowlabel" py:choose="">
+            <py:when test="label.get('href', '') == ''">${label.text}</py:when>
+            <py:otherwise><a href="${label.get('href')}">${label.text}</a></py:otherwise>
+          </th>
+          <td py:for="data in col_data" class="col" py:choose="">
+            <py:when test="data.get('href', '') == ''">${transform(data.text, mapping)}</py:when>
+            <py:otherwise><a href="${data.get('href')}">${transform(data.text, mapping)}</a></py:otherwise>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</div>
+
+<footer>
+</footer>
+</div> <!--! end of #container -->
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+<script type="text/javascript">//<![CDATA[
+window.jQuery || document.write('<script src="js/libs/jquery-1.6.2.min.js"><\/script>')
+//]]></script>
+<script defer="defer" src="js/plugins.js"></script>
+<script defer="defer" src="js/script.js"></script>
+<!--script type="text/javascript"> // Change UA-XXXXX-X to be your site's ID
+window._gaq = [['_setAccount','UAXXXXXXXX1'],['_trackPageview'],['_trackPageLoadTime']];
+Modernizr.load({
+load: ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js'
+});
+</script-->
+
+
+<!--[if lt IE 7 ]>
+<script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+<script type="text/javascript">
+window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})
+</script>
+<![endif]-->
+  
+</body>
+</html>
